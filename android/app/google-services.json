@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "193819132751",
+    "project_id": "freepi-app-modular",
+    "storage_bucket": "freepi-app-modular.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193819132751:android:6e2af53ff227319f7dfb3a",
+        "android_client_info": {
+          "package_name": "com.example.modular_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxpPKaSaXlXrjk79Zknvx7WYLOHsEbU34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
