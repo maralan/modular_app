@@ -53,6 +53,7 @@ class _PlayerScreenState extends State<PlayerScreen>
       builder: (_) {
         return Container(
           padding: const EdgeInsets.all(20),
+          color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -68,15 +69,21 @@ class _PlayerScreenState extends State<PlayerScreen>
 
               Text(
                 program.title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                 ),
               ),
 
               const SizedBox(height: 10),
 
-              Text(program.description),
+              Text(
+                program.description,
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                ),
+              ),
 
               const SizedBox(height: 10),
 
@@ -102,7 +109,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     final station =
         provider.currentStation ??
         provider.stations.first;
-    final color = station.color ?? Colors.blue;
+    final color = station.color ?? Theme.of(context).colorScheme.secondary;
 
     provider.isPlaying
         ? _rotationController.repeat()
@@ -133,7 +140,7 @@ class _PlayerScreenState extends State<PlayerScreen>
             gradient: LinearGradient(
               colors: [
                 color.withOpacity(0.8),
-                Colors.black,
+                Theme.of(context).scaffoldBackgroundColor,
               ],
             ),
             borderRadius: BorderRadius.circular(30),
@@ -172,8 +179,8 @@ class _PlayerScreenState extends State<PlayerScreen>
                           provider.isPlaying ? "● EN VIVO" : "● OFFLINE",
                           style: TextStyle(
                             color: provider.isPlaying
-                                ? Colors.red
-                                : Colors.grey,
+                                ? Theme.of(context).colorScheme.error
+                                : Theme.of(context).dividerColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -188,8 +195,8 @@ class _PlayerScreenState extends State<PlayerScreen>
                             ? provider.currentTitle
                             : station.name,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
@@ -201,7 +208,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                       Center(
                         child: Text(
                           station.slogan,
-                          style: const TextStyle(color: Colors.white70),
+                          style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
                         ),
                       ),
 
@@ -240,14 +247,14 @@ class _PlayerScreenState extends State<PlayerScreen>
                                 ],
                               ),
                               child: provider.isLoading
-                                  ? const CircularProgressIndicator(
-                                      color: Colors.black)
+                                  ? CircularProgressIndicator(
+                                      color: Theme.of(context).colorScheme.onSecondary)
                                   : Icon(
                                       provider.isPlaying
                                           ? Icons.pause
                                           : Icons.play_arrow,
                                       size: 40,
-                                      color: Colors.black,
+                                      color: Theme.of(context).colorScheme.onSecondary,
                                     ),
                             ),
                           ),
@@ -270,13 +277,13 @@ class _PlayerScreenState extends State<PlayerScreen>
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: color),
-                          color: Colors.black.withOpacity(0.4),
+                          color: Theme.of(context).cardColor.withOpacity(0.7),
                         ),
                         child: Text(
                           provider.currentTitle.isNotEmpty
                             ? provider.currentTitle
                             : "Transmitiendo en vivo",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -288,8 +295,8 @@ class _PlayerScreenState extends State<PlayerScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.arrow_back_ios,
-                                color: Colors.white),
+                            icon: Icon(Icons.arrow_back_ios,
+                                color: Theme.of(context).textTheme.bodyLarge?.color),
                             onPressed: () {
                               setState(() {
                                 selectedDayIndex =
@@ -316,13 +323,15 @@ class _PlayerScreenState extends State<PlayerScreen>
                             ),
                             child: Text(
                               days[selectedDayIndex],
-                              style: const TextStyle(color: Colors.black),
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSecondary,
+                              ),
                             ),
                           ),
 
                           IconButton(
-                            icon: const Icon(Icons.arrow_forward_ios,
-                                color: Colors.white),
+                            icon: Icon(Icons.arrow_forward_ios,
+                                color: Theme.of(context).textTheme.bodyLarge?.color),
                             onPressed: () {
                               setState(() {
                                 selectedDayIndex =
@@ -339,9 +348,9 @@ class _PlayerScreenState extends State<PlayerScreen>
 
                       /// 🔥 PROGRAMAS
                       if (dayPrograms.isEmpty)
-                        const Text(
+                        Text(
                           "No se encontraron programas",
-                          style: TextStyle(color: Colors.white70),
+                          style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
                           textAlign: TextAlign.center,
                         )
                       else
@@ -354,7 +363,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                                     const EdgeInsets.symmetric(vertical: 10),
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: Theme.of(context).cardColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Row(
@@ -377,21 +386,31 @@ class _PlayerScreenState extends State<PlayerScreen>
                                         children: [
                                           Text(
                                             program.title,
-                                            style: const TextStyle(fontWeight:FontWeight.bold),
+                                            style: TextStyle(
+                                              fontWeight:FontWeight.bold,
+                                              color:
+                                                Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
+                                            ),
                                           ),
 
                                           Text(
                                             "${program.startTime}- ${program.endTime}",
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.black54,
+                                              color: Theme.of(context).textTheme.bodyMedium?.color,
                                             ),
                                           ),
 
                                           Text(
                                             program.description,
                                             maxLines: 2,
-                                            overflow: TextOverflow.ellipsis
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Theme.of(context).textTheme.bodyMedium?.color,
+                                            )
                                           ),
                                         ],
                                       ),
@@ -413,8 +432,10 @@ class _PlayerScreenState extends State<PlayerScreen>
                   top: 20,
                   left: 20,
                   child: IconButton(
-                    icon: const Icon(Icons.keyboard_arrow_down,
-                        color: Colors.white, size: 35),
+                    icon: Icon(Icons.keyboard_arrow_down,
+                        color: Theme.of(context).textTheme.bodyLarge?.color, 
+                        size: 35
+                    ),
                     onPressed: () => Navigator.pop(context),
                   ),
                 ),

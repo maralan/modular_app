@@ -32,35 +32,26 @@ class RadioHomeScreen extends StatefulWidget {
     @override
     void initState() {
       super.initState();
+      final programProvider =
+        context.read<ProgramProvider>();
+
+      final stationProvider = context.read<StationProvider>();
+      final audioProvider = context.read<AudioProvider>();
+
       Future.microtask(() async {
-        
-        await context
-          .read<ProgramProvider>()
-          .loadPrograms();
+        await programProvider.loadPrograms();
+        await stationProvider.loadStations();
 
-        await context
-          .read<StationProvider>()
-          .loadStations();
-        
-        WidgetsBinding.instance
-            .addPostFrameCallback((_) {
+        if (!mounted) return;
 
-          if (!mounted) return;
+        final stations =
+            stationProvider.stations;
 
-          final stations =
-              context
-                  .read<StationProvider>()
-                  .stations;
-
-          if (stations.isNotEmpty) {
-
-            context
-                .read<AudioProvider>()
-                .setStations(stations);
-          }
-        });
+        if (stations.isNotEmpty) {
+          audioProvider.setStations(stations);
+        }
       });
-  }
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -69,19 +60,6 @@ class RadioHomeScreen extends StatefulWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color(0xFF12324A),
-        centerTitle: true,
-        title: const Text(
-          "Radio",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
 
       body: Builder(
         builder: (context) {

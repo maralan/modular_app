@@ -71,10 +71,19 @@ class _DetailScreenState extends State<DetailScreen> {
             expandedHeight: 250,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
+              titlePadding: 
+                const EdgeInsets.only(
+                  left: 16,
+                  bottom: 16,
+                  right: 16,
+                ),
               title: Text(
                 widget.post.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold
+                ),
               ),
               background: widget.post.imageUrl != null
                   ? Hero(
@@ -94,7 +103,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         // ERROR
                         errorBuilder: (_, __, ___) {
                           return Container(
-                            color: Colors.grey[300],
+                            color: Theme.of(context).dividerColor,
                             child: const Center(
                               child: Icon(Icons.image_not_supported),
                             ),
@@ -102,7 +111,14 @@ class _DetailScreenState extends State<DetailScreen> {
                         },
                       ),
                     )
-                  : Container(color: Colors.grey),
+                  : Container(
+                    color: Theme.of(context).dividerColor,
+                    child: const Center(
+                      child: Icon(
+                        Icons.image,
+                      ),
+                    ),
+                  ),
             ),
           ),
 
@@ -114,6 +130,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 data: widget.post.content,
                 style: {
                   "body": Style(
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
                     fontSize: FontSize(16),
                     lineHeight: const LineHeight(1.5),
                   ),

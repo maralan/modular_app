@@ -25,7 +25,7 @@ class StationCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Theme.of(context).shadowColor.withOpacity(0.2),
                 blurRadius: 10,
                 offset: const Offset(0, 5),
               )
@@ -47,7 +47,7 @@ class StationCard extends StatelessWidget {
                         StackTrace,
                       ) {
                         return Container(
-                          color: Colors.grey[300],
+                          color: Theme.of(context).dividerColor,
                           child: const Icon(
                             Icons.radio,
                             size: 40,
@@ -56,7 +56,7 @@ class StationCard extends StatelessWidget {
                       },
                     )
                     : Container(
-                      color: Colors.grey[300],
+                      color: Theme.of(context).dividerColor,
                       child: const Icon(
                         Icons.radio,
                         size: 40,
@@ -123,11 +123,11 @@ class StationCard extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.yellow,
+                      color: Theme.of(context).colorScheme.secondary,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
+                          color: Theme.of(context).shadowColor.withOpacity(0.3),
                           blurRadius: 6,
                         )
                       ],
@@ -135,7 +135,7 @@ class StationCard extends StatelessWidget {
                     // Dynamically switches the icon based on the current playback state.
                     child: Icon(
                       isPlaying ? Icons.pause : Icons.play_arrow,
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.onSecondary,
                       size: 28,
                     ),
                   ),

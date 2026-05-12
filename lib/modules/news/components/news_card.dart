@@ -42,7 +42,7 @@ class NewsCard extends StatelessWidget {
             color: Theme.of(context).cardColor,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Theme.of(context).shadowColor.withOpacity(0.08),
                 blurRadius: 8,
                 offset: const Offset(0, 4),
               ),
@@ -65,8 +65,16 @@ class NewsCard extends StatelessWidget {
                       child: Image.network(
                         post.imageUrl!,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) =>
-                            const Icon(Icons.image_not_supported),
+                        errorBuilder: (_, __, ___) {
+                          return Container(
+                            color: Theme.of(context).dividerColor,
+                            child: const Center(
+                              child: Icon(
+                                Icons.image_not_supported,
+                              ),
+                            ),
+                          );
+                        }
                       ),
                     ),
                   ),
@@ -84,8 +92,9 @@ class NewsCard extends StatelessWidget {
                         post.title,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
                         ),
                       ),
 
@@ -108,7 +117,7 @@ class NewsCard extends StatelessWidget {
                             isFav
                                 ? Icons.favorite
                                 : Icons.favorite_border,
-                            color: isFav ? Colors.red : null,
+                            color: isFav ? Theme.of(context).colorScheme.error : null,
                           ),
                           onPressed: () {
                             final user =
@@ -120,7 +129,7 @@ class NewsCard extends StatelessWidget {
                                 .showSnackBar(
                                   SnackBar(
                                     behavior: SnackBarBehavior.floating,
-                                    backgroundColor: const Color(0xFF12324A),
+                                    backgroundColor: Theme.of(context).colorScheme.primary,
                                     content: const Text(
                                       "Iniciar sesión para guardar favoritos",
                                     ),

@@ -30,15 +30,24 @@ class FavoritesScreen extends StatelessWidget {
       ),
 
       body: validFavorites.isEmpty
-          ? const Center(
+          ? Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.favorite_border, size: 60, color: Colors.grey),
-                  SizedBox(height: 10),
+                  Icon(Icons.favorite_border, size: 60, 
+                        color:
+                          Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.color,
+                      ),
+                  const SizedBox(height: 10),
                   Text(
                     "No tienes favoritos",
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
+                    ),
                   ),
                 ],
               ),
@@ -60,7 +69,7 @@ class FavoritesScreen extends StatelessWidget {
                     key: ValueKey('fav_${post.id}'),
                     direction: DismissDirection.endToStart,
                     background: Container(
-                      color: Colors.red,
+                      color: Theme.of(context).colorScheme.error,
                       alignment: Alignment.centerRight,
                       padding: const EdgeInsets.only(right: 20),
                       child: const Icon(Icons.delete, color: Colors.white),
@@ -82,6 +91,7 @@ class FavoritesScreen extends StatelessWidget {
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
+                          backgroundColor: Theme.of(context).colorScheme.primary,
                           content: Text(
                             wasFav
                               ? "Eliminado de favoritos"

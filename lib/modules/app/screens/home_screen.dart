@@ -29,7 +29,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        elevation: 0,
+        iconTheme: const IconThemeData(
+          color:  Colors.white,
+        ),
+      ),
       drawer: AppDrawer(
         onItemSelected: (index) {
           setState(() {
@@ -65,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(28),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.12),
+                color: Theme.of(context).shadowColor.withOpacity(0.12),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -89,8 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }
 
-                  return const TextStyle(
-                    color: Colors.black87,
+                  return TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
                   );
                 },
               ),
@@ -107,9 +113,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             : Colors.black87,
                   ),
 
-                  selectedIcon: const Icon(
+                  selectedIcon: Icon(
                     Icons.dashboard,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
 
                   label: "App",
@@ -126,9 +132,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             : Colors.black87,
                   ),
 
-                  selectedIcon: const Icon(
+                  selectedIcon: Icon(
                     Icons.radio,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
 
                   label: "Radio",
@@ -144,9 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Colors.black87,
                   ),
 
-                  selectedIcon: const Icon(
+                  selectedIcon: Icon(
                     Icons.newspaper,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
 
                   label: "News",
@@ -165,9 +171,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             : Colors.black87,
                   ), 
 
-                  selectedIcon: const Icon(
+                  selectedIcon: Icon(
                     Icons.person,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
 
                   label: "Perfil",

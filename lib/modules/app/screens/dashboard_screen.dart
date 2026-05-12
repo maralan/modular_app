@@ -94,23 +94,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     return Scaffold(
 
-      backgroundColor: const Color(0xFFF4F7FB),
-
-      appBar: AppBar(
-
-        elevation: 0,
-        backgroundColor: const Color(0xFF12324A),
-
-        title: const Text(
-          "Dashboard",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-
-        centerTitle: true,
-      ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       body: SingleChildScrollView(
 
@@ -136,8 +120,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           .cardColor,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black
-                          .withOpacity(0.08),
+                      color: Theme.of(context).shadowColor.withOpacity(0.1),
                       blurRadius: 12,
                     ),
                   ],
@@ -165,7 +148,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               return Container(
                                 width: 110,
                                 height: 110,
-                                color: Colors.grey.shade300,
+                                color: Theme.of(context).dividerColor,
                                 child: const Icon(
                                   Icons.radio,
                                   size: 40,
@@ -176,7 +159,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         : Container(
                             width: 110,
                             height: 110,
-                            color: Colors.grey.shade300,
+                            color: Theme.of(context).dividerColor,
                             child: const Icon(
                               Icons.radio,
                               size: 40,
@@ -191,10 +174,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           crossAxisAlignment:
                               CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               "Última estación",
                               style: TextStyle(
-                                color: Colors.grey,
+                                color: Theme.of(context).textTheme.bodyMedium?.color,
                               ),
                             ),
 
@@ -262,8 +245,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 .cardColor,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black
-                                .withOpacity(0.08),
+                            color: Theme.of(context).shadowColor.withOpacity(0.1),
                             blurRadius: 12,
                           ),
                         ],
@@ -293,7 +275,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 ) {
                                   return Container(
                                     height: 130,
-                                    color: Colors.grey.shade300,
+                                    color: Theme.of(context).dividerColor,
                                     child: const Icon(
                                       Icons.image,
                                       size: 40,
@@ -303,7 +285,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               )
                             : Container(
                                 height: 130,
-                                color: Colors.grey.shade300,
+                                color: Theme.of(context).dividerColor,
                                 child: const Icon(
                                   Icons.image,
                                   size: 40,
@@ -350,7 +332,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.15),
+                    color: Theme.of(context).shadowColor.withOpacity(0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 8),
                   ),
@@ -363,10 +345,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                 children: [
 
-                  const Text(
+                  Text(
                     "Bienvenido 👋",
                     style: TextStyle(
-                      color: Colors.white70,
+                      color: Colors.white,
                       fontSize: 16,
                     ),
                   ),
@@ -377,7 +359,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     auth.user?.email ??
                         "Usuario",
 
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -386,10 +368,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                   const SizedBox(height: 12),
 
-                  const Text(
+                  Text(
                     "Tu aplicación modular está funcionando correctamente.",
                     style: TextStyle(
-                      color: Colors.white70,
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -452,15 +434,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       const EdgeInsets.all(18),
 
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
 
                     borderRadius:
                         BorderRadius.circular(22),
 
                     boxShadow: [
                       BoxShadow(
-                        color:
-                            Colors.black.withOpacity(0.05),
+                        color: Theme.of(context).shadowColor.withOpacity(0.08),
                         blurRadius: 10,
                       ),
                     ],
@@ -525,15 +506,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   const EdgeInsets.all(18),
 
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
 
                 borderRadius:
                     BorderRadius.circular(22),
 
                 boxShadow: [
                   BoxShadow(
-                    color:
-                        Colors.black.withOpacity(0.05),
+                    color: Theme.of(context).shadowColor.withOpacity(0.08),
                     blurRadius: 10,
                   ),
                 ],
@@ -666,13 +646,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
 
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Theme.of(context).cardColor,
                               borderRadius:
                                   BorderRadius.circular(24),
                               boxShadow: [
                                 BoxShadow(
-                                  color:
-                                      Colors.black.withOpacity(0.08),
+                                  color: Theme.of(context).shadowColor.withOpacity(0.08),
                                   blurRadius: 10,
                                 ),
                               ],
@@ -704,7 +683,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           ) {
                                             return Container(
                                               height: 130,
-                                              color: Colors.grey.shade300,
+                                              color: Theme.of(context).dividerColor,
                                               child: const Icon(
                                                 Icons.image,
                                                 size: 40,
@@ -714,7 +693,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         )
                                       : Container(
                                           height: 130,
-                                          color: Colors.grey.shade300,
+                                          color: Theme.of(context).dividerColor,
                                           child: const Icon(
                                             Icons.image,
                                             size: 40,
@@ -743,12 +722,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                                       const SizedBox(height: 6),
 
-                                      const Text(
+                                      Text(
                                         "Favorito guardado",
                                         maxLines: 1,
                                         overflow:TextOverflow.ellipsis,
                                         style: TextStyle(
-                                          color:Colors.grey,
+                                          color: Theme.of(context).textTheme.bodyMedium?.color,
                                         ),
                                       ),
                                     ],
@@ -784,15 +763,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       itemCount: 3,
                       itemBuilder: (context, index) {
                         return Shimmer.fromColors(
-                          baseColor: Colors.grey.shade300, 
-                          highlightColor: Colors.grey.shade100,
+                          baseColor: Theme.of(context).dividerColor,
+                          highlightColor: Theme.of(context).cardColor,
                           child: Container(
                             width: 220,
                             margin: const EdgeInsets.only(
                               right: 16,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Theme.of(context).cardColor,
                               borderRadius: BorderRadius.circular(24),
                             ),
                           ),
@@ -830,8 +809,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   .cardColor,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black
-                                  .withOpacity(0.08),
+                              color: Theme.of(context).shadowColor.withOpacity(0.08),
                               blurRadius: 12,
                             ),
                           ],
@@ -861,7 +839,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       ) {
                                         return Container(
                                           height: 140,
-                                          color: Colors.grey.shade300,
+                                          color: Theme.of(context).dividerColor,
                                           child: const Icon(
                                             Icons.image,
                                             size: 40,
@@ -871,7 +849,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     )
                                   : Container(
                                       height: 140,
-                                      color: Colors.grey.shade300,
+                                      color: Theme.of(context).dividerColor,
                                       child: const Icon(
                                         Icons.image,
                                         size: 40,
@@ -906,8 +884,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     overflow:
                                         TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      color:
-                                          Colors.grey.shade600,
+                                      color: Theme.of(context).textTheme.bodyMedium?.color,
                                     ),
                                   ),
                                 ],
@@ -983,8 +960,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   .cardColor,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black
-                                  .withOpacity(0.08),
+                              color: Theme.of(context).shadowColor.withOpacity(0.08),
                               blurRadius: 12,
                             ),
                           ],
@@ -1015,7 +991,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     ) {
                                       return Container(
                                         height: 130,
-                                        color: Colors.grey.shade300,
+                                        color: Theme.of(context).dividerColor,
                                         child: const Icon(
                                           Icons.image,
                                           size: 40,
@@ -1025,7 +1001,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   )
                                 : Container(
                                     height: 130,
-                                    color: Colors.grey.shade300,
+                                    color: Theme.of(context).dividerColor,
                                     child: const Icon(
                                       Icons.image,
                                       size: 40,
@@ -1085,12 +1061,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius:
             BorderRadius.circular(22),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Theme.of(context).shadowColor.withOpacity(0.08),
             blurRadius: 10,
           ),
         ],
@@ -1125,7 +1101,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Text(
             subtitle,
             style: TextStyle(
-              color: Colors.grey.shade600,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
             ),
           ),
         ],

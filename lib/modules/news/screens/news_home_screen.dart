@@ -73,15 +73,15 @@ class _HomeScreenState
 
           child: Shimmer.fromColors(
 
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
+            baseColor: Theme.of(context).dividerColor,
+            highlightColor: Theme.of(context).cardColor,
 
             child: Container(
 
               height: 160,
 
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
                 borderRadius:
                     BorderRadius.circular(16),
               ),
@@ -94,8 +94,8 @@ class _HomeScreenState
                     width: 120,
                     height: 120,
 
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
 
                       borderRadius:
                           BorderRadius.horizontal(
@@ -116,7 +116,7 @@ class _HomeScreenState
                           Container(
                             height: 16,
                             width: double.infinity,
-                            color: Colors.white,
+                            color: Theme.of(context).cardColor,
                           ),
 
                           const SizedBox(height: 10),
@@ -124,7 +124,7 @@ class _HomeScreenState
                           Container(
                             height: 16,
                             width: 150,
-                            color: Colors.white,
+                            color: Theme.of(context).cardColor,
                           ),
 
                           const SizedBox(height: 20),
@@ -132,7 +132,7 @@ class _HomeScreenState
                           Container(
                             height: 12,
                             width: double.infinity,
-                            color: Colors.white,
+                            color: Theme.of(context).cardColor,
                           ),
 
                           const SizedBox(height: 8),
@@ -140,7 +140,7 @@ class _HomeScreenState
                           Container(
                             height: 12,
                             width: 180,
-                            color: Colors.white,
+                            color: Theme.of(context).cardColor,
                           ),
 
                           const SizedBox(height: 8),
@@ -152,8 +152,8 @@ class _HomeScreenState
                               width: 30,
                               height: 30,
                               decoration:
-                                  const BoxDecoration(
-                                color: Colors.white,
+                                  BoxDecoration(
+                                color: Theme.of(context).cardColor,
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -180,24 +180,31 @@ class _HomeScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Noticias"),
+        automaticallyImplyLeading: false,
+        title: const SizedBox(),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: const Icon(
+              Icons.search,
+            ),
             onPressed: () {
               showSearch(
                 context: context,
-                delegate: NewsSearchDelegate(),
+                delegate:
+                    NewsSearchDelegate(),
               );
             },
           ),
           IconButton(
-            icon: const Icon(Icons.favorite),
+            icon: const Icon(
+              Icons.favorite,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => const FavoritesScreen(),
+                  builder: (_) =>
+                      const FavoritesScreen(),
                 ),
               );
             },
@@ -224,13 +231,13 @@ class _HomeScreenState
                       ),
 
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
+                        baseColor: Theme.of(context).dividerColor,
+                        highlightColor: Theme.of(context).cardColor,
 
                         child: Container(
                           width: 90,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).cardColor,
                             borderRadius:
                                 BorderRadius.circular(20),
                           ),
@@ -310,7 +317,7 @@ class _HomeScreenState
         if (postProvider.error != null && postProvider.posts.isNotEmpty)
         Container(
           width: double.infinity,
-          color: Colors.orange,
+          color: Theme.of(context).colorScheme.error,
           padding: const EdgeInsets.all(8),
           child: Text(
             postProvider.error!,
@@ -345,7 +352,7 @@ class _HomeScreenState
                   key: Key(post.id.toString()),
                   direction: DismissDirection.endToStart,
                   background: Container(
-                    color: Colors.red,
+                    color: Theme.of(context).colorScheme.error,
                     alignment: Alignment.centerRight,
                     padding: const EdgeInsets.only(right: 20),
                     child: const Icon(Icons.favorite, color: Colors.white),
