@@ -29,6 +29,7 @@ final stations = [
 // List of radio programs to be displayed in the schedule or featured sections.
 final programs = [
   Program(
+    id: 1,
     title: "NOTICIERO NCC",
     description: "Noticias relevantes del día",
     imageUrl: "https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0",
@@ -37,6 +38,7 @@ final programs = [
     endTime: "10:00 AM",
   ),
   Program(
+    id: 2,
     title: "PROGRESIÓN",
     description: "Música progresiva",
     imageUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f",
@@ -45,6 +47,7 @@ final programs = [
     endTime: "01:00 PM",
   ),
   Program(
+    id: 3,
     title: "JAZZ NIGHT",
     description: "Jazz relajante",
     imageUrl: "https://images.unsplash.com/photo-1511379938547-c1f69419868d",

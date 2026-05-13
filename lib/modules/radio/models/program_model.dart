@@ -1,4 +1,5 @@
 class Program {
+  final int id;
   final String title;
   final String description;
   final String imageUrl;
@@ -7,6 +8,7 @@ class Program {
   final String endTime;
 
   Program({
+    required this.id,
     required this.title,
     required this.description,
     required this.imageUrl,
@@ -20,6 +22,7 @@ class Program {
   ) {
 
     return Program(
+      id: json['id'] ?? 0,
       title: json['program_name'] ?? '',
       description: json['program_description'] ?? '',
       imageUrl: json['program_cover'] ?? '',

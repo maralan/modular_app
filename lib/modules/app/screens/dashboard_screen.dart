@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../provider/auth_provider.dart';
 import '../provider/theme_provider.dart';
@@ -41,6 +42,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     loadLastStation();
+    SchedulerBinding.instance
+        .addPostFrameCallback((_) {
+      if (mounted) {
+        context
+            .read<FavoritesProvider>()
+            .loadAllFavorites();
+      }
+    });
   }
 
   Future<void>
@@ -93,19 +102,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final favorites = Provider.of<FavoritesProvider>(context);
 
     return Scaffold(
-
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-
       body: SingleChildScrollView(
-
         padding: const EdgeInsets.all(20),
-
         child: Column(
           crossAxisAlignment:
               CrossAxisAlignment.start,
-
           children: [
-
             if (lastStationName != null)
               Container(
                 margin:
@@ -177,7 +180,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             Text(
                               "Última estación",
                               style: TextStyle(
-                                color: Theme.of(context).textTheme.bodyMedium?.color,
+                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
                               ),
                             ),
 
@@ -209,11 +212,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
               const SizedBox(height: 10),
 
-              const Text(
+              Text(
                 "Noticias recientes",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                 ),
               ),
 
@@ -380,11 +384,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             const SizedBox(height: 30),
 
-            const Text(
+            Text(
               "Resumen general",
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
               ),
             ),
 
@@ -458,7 +463,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                       const SizedBox(width: 16),
 
-                      const Expanded(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment:
                               CrossAxisAlignment.start,
@@ -478,6 +483,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                             Text(
                               "Cambia la apariencia de la app",
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.color
+                                    ?.withOpacity(0.7),
+                              ),
                             ),
                           ],
                         ),
@@ -519,13 +531,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
 
-              child: const Row(
+              child: Row(
 
                 children: [
 
                   Icon(
                     Icons.notifications_active,
-                    color: Color(0xFF12324A),
+                    color: Theme.of(context).colorScheme.primary,
                     size: 30,
                   ),
 
@@ -551,6 +563,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                         Text(
                           "Firebase Messaging activo",
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.color
+                                ?.withOpacity(0.7),
+                          ),
                         ),
                       ],
                     ),
@@ -566,11 +585,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   MainAxisAlignment.spaceBetween,
 
               children: [
-                const Text(
+                Text(
                   "Favoritos recientes",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
                 ),
  
@@ -727,7 +747,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         maxLines: 1,
                                         overflow:TextOverflow.ellipsis,
                                         style: TextStyle(
-                                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.color
+                                              ?.withOpacity(0.7),
                                         ),
                                       ),
                                     ],
@@ -743,11 +767,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             const SizedBox(height: 30),
 
-            const Text(
+            Text(
               "Programas destacados",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
               ),
             ),
 
@@ -884,7 +909,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     overflow:
                                         TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      color: Theme.of(context).textTheme.bodyMedium?.color,
+                                      color: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.color
+                                        ?.withOpacity(0.7),
                                     ),
                                   ),
                                 ],
@@ -901,11 +930,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             const SizedBox(height: 30),
 
-            const Text(
+            Text(
               "Programas favoritos",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
               ),
             ),
 
@@ -1030,8 +1060,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                                   const SizedBox(height: 8),
 
-                                  const Text(
+                                  Text(
                                     "Programa favorito",
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.color
+                                          ?.withOpacity(0.7),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -1101,7 +1138,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Text(
             subtitle,
             style: TextStyle(
-              color: Theme.of(context).textTheme.bodyMedium?.color,
+              color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
             ),
           ),
         ],

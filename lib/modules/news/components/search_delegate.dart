@@ -38,11 +38,17 @@ class NewsSearchDelegate extends SearchDelegate {
   Widget _buildResults(BuildContext context) {
     final postProvider = Provider.of<PostProvider>(context, listen: false);
     final favProvider = Provider.of<FavoritesProvider>(context);
+    final theme = Theme.of(context);
 
     // SIN TEXTO
     if (query.isEmpty) {
-      return const Center(
-        child: Text("Escribe para buscar noticias"),
+      return Center(
+        child: Text(
+          "Escribe para buscar noticias",
+          style: TextStyle(
+            color: theme.textTheme.bodyMedium?.color,
+          ),
+        ),
       );
     }
 
@@ -52,7 +58,14 @@ class NewsSearchDelegate extends SearchDelegate {
 
     // SIN RESULTADOS
     if (results.isEmpty) {
-      return const Center(child: Text("No se encontraron resultados"));
+      return Center(
+        child: Text(
+          "No se encontraron resultados",
+          style: TextStyle(
+            color: theme.textTheme.bodyMedium?.color,
+          ),
+        )
+      );
     }
 
     // RESULTADOS
@@ -73,6 +86,28 @@ class NewsSearchDelegate extends SearchDelegate {
           ),
         );
       },
+    );
+  }
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return theme.copyWith(
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: TextStyle(
+          color: theme.textTheme.bodyMedium
+              ?.color
+              ?.withOpacity(0.7),
+        ),
+        border: InputBorder.none,
+      ),
+      textTheme: TextTheme(
+        titleLarge: TextStyle(
+          color: theme.textTheme.bodyLarge?.color,
+          fontSize: 18,
+        ),
+      ),
     );
   }
 }

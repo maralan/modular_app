@@ -11,8 +11,7 @@ class ProgramCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Detect system brightness to dynamically adjust shadow colors for better depth.
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
 
     return Consumer<ProgramProvider>(
       builder: (context, provider, _){
@@ -34,76 +33,71 @@ class ProgramCarousel extends StatelessWidget {
             ),
           );
         }
-        return CarouselSlider(
-          options: CarouselOptions(
-            height: 200,
-            autoPlay: true,
-            enlargeCenterPage: true,
-          ),
-          items: provider.programs.map((program) {
-            return GestureDetector(
-              onTap: () => _showProgramDetail(
-                context, 
-                program
+        return Consumer<FavoritesProvider>(
+          builder: (content, favProvider, _) {
+            return CarouselSlider(
+              options: CarouselOptions(
+                height: 200,
+                autoPlay: true,
+                enlargeCenterPage: true,
               ),
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 6,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: isDark
-                          ? Colors.black.withOpacity(0.6)
-                          : Colors.grey.withOpacity(0.4),
-                      blurRadius: 10,
-                    )
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(20),
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: Image.network(
-                          program.imageUrl,
-                          fit: BoxFit.cover,
+              items: provider.programs.map((program) {
+                final isFav =
+                    favProvider.isFavorite(
+                  "program_${program.id}",
+                );
+
+                return GestureDetector(
+                  onTap: () => _showProgramDetail(
+                    context,
+                    program,
+                  ),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: theme.shadowColor.withOpacity(0.25),
+                          blurRadius: 10,
                         ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient:  LinearGradient(
-                            colors: [
-                              Colors.transparent,
-                              Colors.black.withOpacity(
-                                0.7,
-                              ),
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Stack(
+                        children: [
+
+                          Positioned.fill(
+                            child: Image.network(
+                              program.imageUrl,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 14,
-                        right: 14,
-                        child:
-                            Consumer<FavoritesProvider>(
-                          builder: (
-                            context,
-                            favProvider,
-                            _,
-                          ) {
-                            final isFav =
-                                favProvider.isFavorite(
-                              "program_${program.title}",
-                            );
-                            return GestureDetector(
+
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.transparent,
+                                  theme.shadowColor.withOpacity(0.7),
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
+                          ),
+
+                          Positioned(
+                            top: 14,
+                            right: 14,
+                            child: GestureDetector(
                               onTap: () {
                                 favProvider.toggleFavorite(
                                   itemId:
-                                      "program_${program.title}",
+                                      "program_${program.id}",
                                   type: "program",
                                   title: program.title,
                                   image: program.imageUrl,
@@ -111,7 +105,7 @@ class ProgramCarousel extends StatelessWidget {
                               },
                               child: CircleAvatar(
                                 backgroundColor:
-                                    Colors.black54,
+                                    theme.shadowColor.withOpacity(0.45),
                                 child: Icon(
                                   isFav
                                       ? Icons.favorite
@@ -119,29 +113,30 @@ class ProgramCarousel extends StatelessWidget {
                                   color: Colors.red,
                                 ),
                               ),
-                            );
-                          },
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 15,
-                        left: 15,
-                        right: 15,
-                        child: Text(
-                          program.title,
-                          style: const TextStyle(
-                            color:  Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
+
+                          Positioned(
+                            bottom: 15,
+                            left: 15,
+                            right: 15,
+                            child: Text(
+                              program.title,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
+                );
+              }).toList(),
             );
-          }).toList(),
+          }
         );
       },
     );
@@ -149,7 +144,7 @@ class ProgramCarousel extends StatelessWidget {
 
   /// Displays a stylized bottom sheet containing the full program description.
   void _showProgramDetail(BuildContext context, dynamic program) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
 
     showDialog(
       context: context,
@@ -158,7 +153,7 @@ class ProgramCarousel extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+          backgroundColor: theme.cardColor,
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -179,7 +174,7 @@ class ProgramCarousel extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black,
+                    color: theme.textTheme.bodyLarge?.color,
                   ),
                 ),
 
@@ -191,17 +186,18 @@ class ProgramCarousel extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
-                    color: isDark ? Colors.white70 : Colors.black54,
+                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.8),
                   ),
                 ),
 
                 const SizedBox(height: 10),
 
-                /// HORARIOS (esto lo pide el inge)
-                const Text(
+                /// HORARIOS
+                Text(
                   "Horario: 6:30 AM - 8:30 AM",
                   style: TextStyle(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
+                    color: theme.textTheme.bodyMedium?.color,
                   ),
                 ),
 
@@ -210,7 +206,7 @@ class ProgramCarousel extends StatelessWidget {
                 /// BOTON CERRAR
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text("Cerrar"),
+                  child: Text("Cerrar"),
                 ),
               ],
             ),

@@ -52,7 +52,7 @@ class MiniPlayer extends StatelessWidget {
                 BoxShadow(
                   color: Theme.of(context).shadowColor.withOpacity(0.25),
                   blurRadius: 15,
-                  offset: Offset(0, 5),
+                  offset: const Offset(0, 5),
                 )
               ],
             ),
@@ -72,18 +72,20 @@ class MiniPlayer extends StatelessWidget {
                           ) {
                             return Container(
                               color: Theme.of(context).dividerColor,
-                              child: const Icon(
+                              child: Icon(
                                 Icons.radio,
                                 size: 40,
+                                color: Theme.of(context).iconTheme.color,
                               ),
                             );
                           },
                         )
                         : Container(
                           color: Theme.of(context).dividerColor,
-                          child: const Icon(
+                          child: Icon(
                             Icons.radio,
                             size: 40,
+                            color: Theme.of(context).iconTheme.color,
                           ),
                         ),
                 ),
@@ -112,7 +114,7 @@ class MiniPlayer extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                          color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.8),
                           fontSize: 12
                         ),
                       ),

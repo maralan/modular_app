@@ -36,62 +36,49 @@ class _LoginScreenState
     final auth =
         Provider.of<AuthProvider>(context);
 
+    final theme = Theme.of(context);
+
     final isDark =
-        Theme.of(context).brightness ==
+        theme.brightness ==
             Brightness.dark;
 
     return Scaffold(
-
       body: Container(
-
-        decoration: const BoxDecoration(
-
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
 
-            colors: [
-
-              Color(0xFF12324A),
-
-              Color(0xFF1E5878),
-
-              Color(0xFFF4F7FB),
-            ],
+            colors: isDark
+                ? [
+                    const Color(0xFF0F172A),
+                    const Color(0xFF1E293B),
+                    const Color(0xFF000000),
+                  ]
+                : [
+                    const Color(0xFF12324A),
+                    const Color(0xFF1E5878),
+                    const Color(0xFFF4F7FB),
+                  ],
           ),
         ),
 
         child: Center(
-
           child: SingleChildScrollView(
-
             padding:
                 const EdgeInsets.all(24),
-
             child: Container(
-
               padding:
                   const EdgeInsets.all(24),
-
               decoration: BoxDecoration(
-
-                color:
-                    isDark
-                        ? Colors.grey[900]
-                        : Colors.white,
-
+                color: theme.cardColor,
                 borderRadius:
                     BorderRadius.circular(28),
-
                 boxShadow: [
-
                   BoxShadow(
-                    color: Colors.black
+                    color: theme.shadowColor
                         .withOpacity(0.12),
-
                     blurRadius: 20,
-
                     offset:
                         const Offset(0, 10),
                   ),
@@ -104,60 +91,51 @@ class _LoginScreenState
                   mainAxisSize:
                       MainAxisSize.min,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.radio,
                       size: 70,
-                      color: Color(0xFF12324A),
+                      color: theme.colorScheme.primary,
                     ),
 
                     const SizedBox(height: 16),
 
-                    const Text(
+                    Text(
                       "Freepi App",
                       style: TextStyle(
                         fontSize: 28,
-                        fontWeight:
-                            FontWeight.bold,
+                        fontWeight: FontWeight.bold,
+                        color: theme.textTheme.bodyLarge?.color,
                       ),
                     ),
 
                     const SizedBox(height: 30),
 
                     TextFormField(
-
                       controller:
                           emailController,
-
                       decoration:
                           InputDecoration(
-
                         labelText: "Email",
-
-                        prefixIcon:
-                            const Icon(
-                          Icons.email,
+                        labelStyle: TextStyle(
+                          color: theme.textTheme.bodyMedium?.color,
                         ),
-
+                        prefixIcon:
+                            Icon(
+                          Icons.email,
+                          color: theme.iconTheme.color,
+                        ),
                         filled: true,
-
-                        fillColor:
-                            isDark
-                                ? Colors.grey[850]
-                                : Colors.grey[100],
-
+                        fillColor: theme.cardColor,
                         border:
                             OutlineInputBorder(
-
                           borderRadius:
                               BorderRadius.circular(
                             18,
                           ),
-
                           borderSide:
                               BorderSide.none,
                         ),
                       ),
-
                       validator: (value) =>
                           Validators.email(
                         value ?? "",
@@ -173,28 +151,26 @@ class _LoginScreenState
                       decoration:
                           InputDecoration(
                         labelText: "Password",
-                        prefixIcon:
-                            const Icon(
-                          Icons.lock,
+                        labelStyle: TextStyle(
+                          color: theme.textTheme.bodyMedium?.color,
                         ),
-
+                        prefixIcon:
+                            Icon(
+                          Icons.lock,
+                          color: theme.iconTheme.color,
+                        ),
                         filled: true,
-                        fillColor:
-                            isDark
-                                ? Colors.grey[850]
-                                : Colors.grey[100],
+                        fillColor:theme.cardColor,
                         border:
                             OutlineInputBorder(
                           borderRadius:
                               BorderRadius.circular(
                             18,
                           ),
-
                           borderSide:
                               BorderSide.none,
                         ),
                       ),
-
                       validator: (value) =>
                           Validators.password(
                         value ?? "",
@@ -211,15 +187,16 @@ class _LoginScreenState
                           InputDecoration(
                         labelText:
                             "Confirmar contraseña",
+                            labelStyle: TextStyle(
+                              color: theme.textTheme.bodyMedium?.color,
+                            ),
                         prefixIcon:
-                            const Icon(
+                            Icon(
                           Icons.lock_outline,
+                          color: theme.iconTheme.color,
                         ),
                         filled: true,
-                        fillColor:
-                            isDark
-                                ? Colors.grey[850]
-                                : Colors.grey[100],
+                        fillColor: theme.cardColor,
                         border:
                             OutlineInputBorder(
                           borderRadius:
@@ -243,18 +220,13 @@ class _LoginScreenState
                     const SizedBox(height: 24),
 
                     if (auth.errorMessage != null)
-
                       Padding(
-
                         padding:
                             const EdgeInsets.only(
                           bottom: 12,
                         ),
-
                         child: Text(
-
                           auth.errorMessage!,
-
                           style:
                               const TextStyle(
                             color: Colors.red,
@@ -265,27 +237,18 @@ class _LoginScreenState
                       ),
 
                     SizedBox(
-
                       width: double.infinity,
-
                       child: ElevatedButton(
-
                         style:
                             ElevatedButton.styleFrom(
-
                           backgroundColor:
-                              const Color(
-                            0xFF12324A,
-                          ),
-
+                              theme.colorScheme.primary,
                           foregroundColor:
                               Colors.white,
-
                           padding:
                               const EdgeInsets.symmetric(
                             vertical: 16,
                           ),
-
                           shape:
                               RoundedRectangleBorder(
 
@@ -345,8 +308,11 @@ class _LoginScreenState
                           context,
                         );
                       },
-                      child: const Text(
+                      child: Text(
                         "¿Ya tienes cuenta? Inicia sesión",
+                        style: TextStyle(
+                          color: theme.colorScheme.secondary,
+                        ),
                       ),
                     ),
                   ],

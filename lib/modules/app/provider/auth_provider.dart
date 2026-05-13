@@ -13,11 +13,24 @@ class AuthProvider extends ChangeNotifier {
 
   bool get isLoggedIn => user != null;
 
-  AuthProvider(){
+  AuthProvider() {
+    FirebaseAuth.instance
+        .authStateChanges()
+        .listen((firebaseUser) {
+      if (firebaseUser != null) {
+        user = AppUser(
+          uid: firebaseUser.uid,
+          email: firebaseUser.email!,
+        );
+      } else {
+        user = null;
+      }
+      notifyListeners();
+    });
     checkSession();
   }
-
-  void checkSession() {
+  
+  Future<void> checkSession() async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
 
     if (firebaseUser != null) {
@@ -25,6 +38,7 @@ class AuthProvider extends ChangeNotifier {
         uid: firebaseUser.uid, 
         email: firebaseUser.email!,
       );
+      notifyListeners();
     }
   }
 

@@ -51,6 +51,15 @@ class AuthService {
         final appUser = AppUser(
           uid: user.uid, 
           email: user.email!,
+          name: '',
+          birthDate: '',
+          gender: '',
+          civilStatus: '',
+          provider: 'email',
+          photoUrl: '',
+          createdAt:
+              DateTime.now()
+                  .toIso8601String(),
         );
 
         await FirebaseFirestore.instance

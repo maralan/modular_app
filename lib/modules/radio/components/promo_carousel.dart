@@ -9,7 +9,7 @@ class PromoCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Dynamic theme detection to adjust visual depth via shadows.
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
 
     return CarouselSlider(
       options: CarouselOptions(
@@ -28,9 +28,7 @@ class PromoCarousel extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: isDark
-                      ? Colors.black.withOpacity(0.6)
-                      : Colors.grey.withOpacity(0.4),
+                  color: theme.shadowColor.withOpacity(0.25),
                   blurRadius: 10,
                 )
               ],
@@ -55,7 +53,7 @@ class PromoCarousel extends StatelessWidget {
                       gradient: LinearGradient(
                         colors: [
                           Colors.transparent,
-                          Colors.black.withOpacity(0.7),
+                          theme.shadowColor.withOpacity(0.7),
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -70,10 +68,17 @@ class PromoCarousel extends StatelessWidget {
                     right: 15,
                     child: Text(
                       promo.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            color: theme.shadowColor,
+                            blurRadius: 6,
+                            offset: const Offset(0, 2)
+                          )
+                        ]
                       ),
                     ),
                   ),
@@ -88,7 +93,7 @@ class PromoCarousel extends StatelessWidget {
 
   /// Displays an informative bottom sheet detailing the promotional offer.
   void _showPromo(BuildContext context, dynamic promo) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
 
     showModalBottomSheet(
       context: context,
@@ -99,7 +104,7 @@ class PromoCarousel extends StatelessWidget {
           margin: const EdgeInsets.all(12),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: isDark ? Colors.grey[900] : Colors.white,
+            color: theme.cardColor,
             borderRadius: BorderRadius.circular(25),
           ),
 
@@ -113,7 +118,7 @@ class PromoCarousel extends StatelessWidget {
                 height: 4,
                 margin: const EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
-                  color: Colors.grey,
+                  color: theme.dividerColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -121,7 +126,23 @@ class PromoCarousel extends StatelessWidget {
               /// Detailed promotional visual asset.
               ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: Image.network(promo.imageUrl),
+                child: Image.network(
+                  promo.imageUrl,
+                  errorBuilder: (
+                    context,
+                    error,
+                    StackTrace,
+                  ) {
+                    return Container(
+                      height: 180,
+                      color: theme.dividerColor,
+                      child: Icon(
+                        Icons.image_not_supported,
+                        color: theme.iconTheme.color,
+                      ),
+                    );
+                  },
+                ),
               ),
 
               const SizedBox(height: 15),
@@ -132,7 +153,7 @@ class PromoCarousel extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white : Colors.black,
+                  color: theme.textTheme.bodyLarge?.color,
                 ),
               ),
 
@@ -144,7 +165,7 @@ class PromoCarousel extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
-                  color: isDark ? Colors.white70 : Colors.black54,
+                  color: theme.textTheme.bodyMedium?.color?.withOpacity(0.8),
                 ),
               ),
 

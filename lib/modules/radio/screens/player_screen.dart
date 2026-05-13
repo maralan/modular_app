@@ -61,9 +61,10 @@ class _PlayerScreenState extends State<PlayerScreen>
                   ? Image.network(
                       program.imageUrl,
                     )
-                  : const Icon(
+                  : Icon(
                       Icons.image,
                       size: 60,
+                      color: Theme.of(context).iconTheme.color,
                     ),
               const SizedBox(height: 10),
 
@@ -166,7 +167,16 @@ class _PlayerScreenState extends State<PlayerScreen>
                           child: CircleAvatar(
                             radius: 80,
                             backgroundImage:
-                                NetworkImage(station.imageUrl),
+                                station.imageUrl.isNotEmpty
+                                    ? NetworkImage(station.imageUrl)
+                                    : null,
+                            child: 
+                                station.imageUrl.isEmpty
+                                    ? Icon(
+                                        Icons.radio,
+                                        color: Theme.of(context).iconTheme.color,
+                                      )
+                                    : null,
                           ),
                         ),
                       ),
@@ -242,7 +252,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                                   BoxShadow(
                                     color:  color.withOpacity(0.5),
                                     blurRadius: 20,
-                                    spreadRadius: 2,
+                                    spreadRadius: 1,
                                   ),
                                 ],
                               ),
@@ -277,7 +287,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: color),
-                          color: Theme.of(context).cardColor.withOpacity(0.7),
+                          color: Theme.of(context).cardColor.withOpacity(0.85),
                         ),
                         child: Text(
                           provider.currentTitle.isNotEmpty
@@ -315,9 +325,9 @@ class _PlayerScreenState extends State<PlayerScreen>
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: color.withOpacity(0.5),
+                                  color: color.withOpacity(0.25),
                                   blurRadius: 20,
-                                  spreadRadius: 2,
+                                  spreadRadius: 1,
                                 ),
                               ],
                             ),
@@ -373,9 +383,10 @@ class _PlayerScreenState extends State<PlayerScreen>
                                             program.imageUrl,
                                             width: 80,
                                           )
-                                        : const Icon(
+                                        : Icon(
                                             Icons.image,
                                             size: 60,
+                                            color: Theme.of(context).iconTheme.color,
                                           ),
 
                                     const SizedBox(width: 10),
@@ -399,7 +410,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                                           Text(
                                             "${program.startTime}- ${program.endTime}",
                                             style: TextStyle(
-                                              fontWeight: FontWeight.bold,
+                                              fontWeight: FontWeight.w600,
                                               color: Theme.of(context).textTheme.bodyMedium?.color,
                                             ),
                                           ),

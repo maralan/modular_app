@@ -68,9 +68,10 @@ class NewsCard extends StatelessWidget {
                         errorBuilder: (_, __, ___) {
                           return Container(
                             color: Theme.of(context).dividerColor,
-                            child: const Center(
+                            child: Center(
                               child: Icon(
                                 Icons.image_not_supported,
+                                color: Theme.of(context).iconTheme.color,
                               ),
                             ),
                           );
@@ -130,7 +131,7 @@ class NewsCard extends StatelessWidget {
                                   SnackBar(
                                     behavior: SnackBarBehavior.floating,
                                     backgroundColor: Theme.of(context).colorScheme.primary,
-                                    content: const Text(
+                                    content: Text(
                                       "Iniciar sesión para guardar favoritos",
                                     ),
                                   ),

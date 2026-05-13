@@ -72,11 +72,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => EventsProvider()),
         ChangeNotifierProvider(create: (_) => RemindersProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) {
-          final provider = FavoritesProvider();
-          provider.loadAllFavorites();
-          return provider;
-        }),
+        ChangeNotifierProvider(create: (_) => FavoritesProvider()),
       ],
       child: const MyApp(),
     ),

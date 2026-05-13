@@ -30,7 +30,7 @@ class _ProfileScreenState
   Widget build(BuildContext context) {
     super.build(context);
     final user = FirebaseAuth.instance.currentUser;
-
+    final theme = Theme.of(context);
     final auth =
         Provider.of<local.AuthProvider>(
       context,
@@ -52,34 +52,35 @@ class _ProfileScreenState
                       const EdgeInsets.all(28),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.blueGrey
-                        .withOpacity(0.12),
+                    color: theme.colorScheme.primary.withOpacity(0.12),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.person_outline,
                     size: 90,
-                    color: Color(0xFF12324A),
+                    color: theme.colorScheme.primary,
                   ),
                 ),
 
                 const SizedBox(height: 30),
 
-                const Text(
+                Text(
                   "Modo Invitado",
                   style: TextStyle(
                     fontSize: 28,
-                    fontWeight:
-                        FontWeight.bold,
+                    fontWeight: FontWeight.bold,
+                    color: theme.textTheme.bodyLarge?.color,
                   ),
                 ),
 
                 const SizedBox(height: 12),
 
-                const Text(
+                Text(
                   "Inicia sesión para sincronizar favoritos, perfil y configuraciones.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.grey,
+                    color: theme.textTheme.bodyMedium
+                            ?.color
+                            ?.withOpacity(0.7),
                     fontSize: 16,
                   ),
                 ),
@@ -91,11 +92,7 @@ class _ProfileScreenState
                   child: ElevatedButton(
                     style:
                         ElevatedButton.styleFrom(
-                      backgroundColor:
-                          const Color(
-                        0xFF12324A,
-                      ),
-
+                      backgroundColor: theme.colorScheme.primary,
                       foregroundColor:
                           Colors.white,
                       padding:
@@ -165,9 +162,6 @@ class _ProfileScreenState
       );
     }
 
-    final isDark =
-        Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
       body: FutureBuilder<DocumentSnapshot>(
         future: FirebaseFirestore.instance
@@ -187,7 +181,7 @@ class _ProfileScreenState
               snapshot.data!.data() as Map<String, dynamic>?;
 
           nameController.text =
-              data?['displayName'] ?? '';
+              data?['name'] ?? '';
 
           return SingleChildScrollView(
             padding: const EdgeInsets.all(20),
@@ -205,16 +199,16 @@ class _ProfileScreenState
                   decoration: BoxDecoration(
                     borderRadius: 
                       BorderRadius.circular(24),
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       colors: [
-                        Color(0xFF12324A),
-                        Color(0xFF1E5878),
+                        theme.colorScheme.primary,
+                        theme.colorScheme.secondary,
                       ],
                     ),
 
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
+                        color: theme.shadowColor.withOpacity(0.15),
                         blurRadius: 15,
                         offset: const Offset(0, 8),
                       ),
@@ -225,17 +219,17 @@ class _ProfileScreenState
                     children: [
                       CircleAvatar(
                         radius: 42,
-                        backgroundColor: Colors.white,
+                        backgroundColor: theme.cardColor,
                         child: Text(
                           nameController.text.isNotEmpty
                             ? nameController.text[0]
                               .toUpperCase()
                             : "U",
                           
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF12324A),
+                            color: theme.colorScheme.primary,
                           ),
                         ),
                       ),
@@ -258,65 +252,131 @@ class _ProfileScreenState
 
                       Text(
                         data?['email'] ?? '',
-                        style: const TextStyle(
-                          color: Colors.white70,
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.8),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 12),
+                      if ((data?['provider'] ?? '').isNotEmpty)
+                        Text(
+                          "Proveedor: ${data?['provider']}",
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                          ),
+                        ),
 
-                      Text(
-                        "UID: ${user.uid}",
-                        style: const TextStyle(
-                          color: Colors.white54,
-                          fontSize: 11,
+                      if ((data?['createdAt'] ?? '').isNotEmpty)
+                        Text(
+                          "Registro: ${data?['createdAt'].toString().split('T')[0]}",
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                          ),
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+
+                      if ((data?['gender'] ?? '').isNotEmpty)
+                        Text(
+                          "Sexo: ${data?['gender']}",
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                          ),
+                        ),
+
+                      if ((data?['civilStatus'] ?? '').isNotEmpty)
+                        Text(
+                          "Estado civil: ${data?['civilStatus']}",
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                          ),
+                        ),
                     ],
                   ),
                 ).animate().fade().slideY(),
 
                 const SizedBox(height: 30),
 
-                Consumer<ThemeProvider>(
-                  builder: (context, themeProvider, _) {
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
 
-                    return Card(
-                      child: SwitchListTile(
-                        value: themeProvider.isDarkMode,
+                  child: Padding(
+                    padding: const EdgeInsets.all(18),
 
-                        title: const Text("Modo oscuro"),
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
 
-                        secondary: const Icon(
-                          Icons.dark_mode,
+                      children: [
+
+                        Text(
+                          "Información personal",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.primary,
+                          ),
                         ),
 
-                        onChanged: (value) {
-                          themeProvider.toggleTheme(value);
-                        },
-                      ),
-                    );
-                  },
+                        const SizedBox(height: 18),
+
+                        if ((data?['gender'] ?? '').isNotEmpty)
+                          ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: const Icon(Icons.person),
+                            title: const Text("Sexo"),
+                            subtitle: Text(data?['gender']),
+                          ),
+
+                        if ((data?['civilStatus'] ?? '').isNotEmpty)
+                          ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: const Icon(Icons.favorite),
+                            title: const Text("Estado civil"),
+                            subtitle:
+                                Text(data?['civilStatus']),
+                          ),
+
+                        if ((data?['createdAt'] ?? '').isNotEmpty)
+                          ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: const Icon(Icons.calendar_month),
+                            title: const Text("Miembro desde"),
+                            subtitle: Text(
+                              (data?['createdAt'] ?? '')
+                                  .toString()
+                                  .split('T')[0],
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
                 ),
+
+                const SizedBox(height: 25),
+
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Editar perfil",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 15),
 
                 TextField(
                   controller: nameController,
-
                   decoration: InputDecoration(
                     labelText: "Nombre",
-
                     filled: true,
-
-                    fillColor:
-                        isDark
-                            ? Colors.grey[900]
-                            : Colors.grey[200],
-
+                    fillColor: theme.cardColor,
                     border: OutlineInputBorder(
                       borderRadius:
                           BorderRadius.circular(15),
-
                       borderSide: BorderSide.none,
                     ),
                   ),
@@ -326,16 +386,13 @@ class _ProfileScreenState
 
                 SizedBox(
                   width: double.infinity,
-
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF12324A),
+                      backgroundColor: theme.colorScheme.primary,
                       foregroundColor: Colors.white,
-
                       padding: const EdgeInsets.symmetric(
                         vertical: 15,
                       ),
-
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(15),
@@ -343,12 +400,11 @@ class _ProfileScreenState
                     ),
 
                     onPressed: () async {
-
                       await FirebaseFirestore.instance
                           .collection('users')
                           .doc(user.uid)
                           .update({
-                        'displayName':
+                        'name':
                             nameController.text,
                       });
 
@@ -370,36 +426,16 @@ class _ProfileScreenState
                   ),
                 ),
 
-                const SizedBox(height: 20),
-
-                Card(
-                  child: ListTile(
-
-                    leading: const Icon(
-                      Icons.notifications,
-                      color: Color(0xFF12324A),
-                    ),
-
-                    title: const Text(
-                      "Notificaciones",
-                    ),
-
-                    subtitle: const Text(
-                      "Firebase Messaging activo",
-                    ),
-                  ),
-                ),
-
                 const SizedBox(height: 10),
 
                 Card(
                   child: ListTile(
-                    leading: const Icon(
+                    leading: Icon(
                       Icons.logout,
-                      color: Color(0xFF12324A),
+                      color: theme.colorScheme.primary,
                     ),
 
-                    title: const Text(
+                    title: Text(
                       "Cerrar sesión",
                     ),
 
@@ -422,13 +458,14 @@ class _ProfileScreenState
                 const SizedBox(height: 10),
 
                 Card(
+                  color: theme.colorScheme.error.withOpacity(0.08),
                   child: ListTile(
-                    leading: const Icon(
+                    leading: Icon(
                       Icons.delete,
-                      color: Colors.red,
+                      color: Theme.of(context).colorScheme.error,
                     ),
 
-                    title: const Text(
+                    title: Text(
                       "Eliminar cuenta",
                     ),
 
@@ -456,6 +493,7 @@ class _ProfileScreenState
                     },
                   ),
                 ),
+                const SizedBox(height: 40),
               ],
             ),
           );

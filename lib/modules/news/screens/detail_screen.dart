@@ -82,7 +82,8 @@ class _DetailScreenState extends State<DetailScreen> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
               background: widget.post.imageUrl != null
@@ -104,8 +105,11 @@ class _DetailScreenState extends State<DetailScreen> {
                         errorBuilder: (_, __, ___) {
                           return Container(
                             color: Theme.of(context).dividerColor,
-                            child: const Center(
-                              child: Icon(Icons.image_not_supported),
+                            child: Center(
+                              child: Icon(
+                                Icons.image_not_supported,
+                                color: Theme.of(context).iconTheme.color,
+                              ),
                             ),
                           );
                         },
@@ -113,9 +117,10 @@ class _DetailScreenState extends State<DetailScreen> {
                     )
                   : Container(
                     color: Theme.of(context).dividerColor,
-                    child: const Center(
+                    child: Center(
                       child: Icon(
                         Icons.image,
+                        color: Theme.of(context).iconTheme.color,
                       ),
                     ),
                   ),

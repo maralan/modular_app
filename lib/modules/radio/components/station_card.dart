@@ -48,18 +48,20 @@ class StationCard extends StatelessWidget {
                       ) {
                         return Container(
                           color: Theme.of(context).dividerColor,
-                          child: const Icon(
+                          child: Icon(
                             Icons.radio,
                             size: 40,
+                            color: Theme.of(context).iconTheme.color,
                           ),
                         );
                       },
                     )
                     : Container(
                       color: Theme.of(context).dividerColor,
-                      child: const Icon(
+                      child: Icon(
                         Icons.radio,
                         size: 40,
+                        color: Theme.of(context).iconTheme.color,
                       ),
                     ),
               ),
@@ -69,7 +71,7 @@ class StationCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   gradient: LinearGradient(
                     colors: [
-                      Colors.black.withOpacity(0.6),
+                      Theme.of(context).shadowColor.withOpacity(0.6),
                       Colors.transparent,
                     ],
                     begin: Alignment.bottomLeft,
@@ -97,8 +99,8 @@ class StationCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       station.slogan,
-                      style: const TextStyle(
-                        color: Colors.white70,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.8),
                         fontSize: 14,
                       ),
                     ),
@@ -113,10 +115,8 @@ class StationCard extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     if (isPlaying) {
-                      // If this station is already playing, the action is to pause.
                       provider.pause();
                     } else {
-                      // If it's not playing (or another station was playing), switch to this one.
                       provider.playStation(station);
                     }
                   },
@@ -127,7 +127,7 @@ class StationCard extends StatelessWidget {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Theme.of(context).shadowColor.withOpacity(0.3),
+                          color: Theme.of(context).shadowColor.withOpacity(0.18),
                           blurRadius: 6,
                         )
                       ],

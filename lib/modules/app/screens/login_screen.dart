@@ -33,62 +33,49 @@ class _LoginScreenState
     final auth =
         Provider.of<AuthProvider>(context);
 
+    final theme = Theme.of(context);
+
     final isDark =
-        Theme.of(context).brightness ==
+        theme.brightness ==
             Brightness.dark;
 
     return Scaffold(
-
       body: Container(
-
-        decoration: const BoxDecoration(
-
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-
-            colors: [
-
-              Color(0xFF12324A),
-
-              Color(0xFF1E5878),
-
-              Color(0xFFF4F7FB),
-            ],
+            colors: isDark
+                ? [
+                    const Color(0xFF0F172A),
+                    const Color(0xFF1E293B),
+                    const Color(0xFF000000),
+                  ]
+                : [
+                    const Color(0xFF12324A),
+                    const Color(0xFF1E5878),
+                    const Color(0xFFF4F7FB),
+                  ],
           ),
         ),
 
         child: Center(
-
           child: SingleChildScrollView(
-
             padding:
                 const EdgeInsets.all(24),
-
             child: Container(
-
               padding:
                   const EdgeInsets.all(24),
-
               decoration: BoxDecoration(
-
-                color:
-                    isDark
-                        ? Colors.grey[900]
-                        : Colors.white,
-
+                color: Theme.of(context).cardColor,
                 borderRadius:
                     BorderRadius.circular(28),
-
                 boxShadow: [
-
                   BoxShadow(
-                    color: Colors.black
+                    color: Theme.of(context)
+                        .shadowColor
                         .withOpacity(0.12),
-
                     blurRadius: 20,
-
                     offset:
                         const Offset(0, 10),
                   ),
@@ -101,47 +88,42 @@ class _LoginScreenState
                   mainAxisSize:
                       MainAxisSize.min,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.radio,
                       size: 70,
-                      color: Color(0xFF12324A),
+                      color: Theme.of(context).colorScheme.primary,
                     ),
 
                     const SizedBox(height: 16),
 
-                    const Text(
+                    Text(
                       "Freepi App",
                       style: TextStyle(
                         fontSize: 28,
-                        fontWeight:
-                            FontWeight.bold,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
                       ),
                     ),
 
                     const SizedBox(height: 30),
 
                     TextFormField(
-
                       controller:
                           emailController,
-
                       decoration:
                           InputDecoration(
-
-                        labelText: "Email",
-
-                        prefixIcon:
-                            const Icon(
-                          Icons.email,
-                        ),
+                            labelText: "Email",
+                            labelStyle: TextStyle(
+                              color: theme.textTheme.bodyMedium?.color,
+                            ),
+                            prefixIcon:
+                                Icon(
+                              Icons.email,
+                              color: theme.iconTheme.color,
+                            ),
 
                         filled: true,
-
-                        fillColor:
-                            isDark
-                                ? Colors.grey[850]
-                                : Colors.grey[100],
-
+                        fillColor: Theme.of(context).cardColor,
                         border:
                             OutlineInputBorder(
 
@@ -164,37 +146,28 @@ class _LoginScreenState
                     const SizedBox(height: 18),
 
                     TextFormField(
-
                       controller:
                           passwordController,
-
                       obscureText: true,
-
                       decoration:
                           InputDecoration(
-
-                        labelText: "Password",
-
-                        prefixIcon:
-                            const Icon(
-                          Icons.lock,
-                        ),
-
+                            labelText: "Password",
+                            labelStyle: TextStyle(
+                              color: theme.textTheme.bodyMedium?.color,
+                            ),
+                            prefixIcon:
+                                Icon(
+                              Icons.lock,
+                              color: theme.iconTheme.color,
+                            ),
                         filled: true,
-
-                        fillColor:
-                            isDark
-                                ? Colors.grey[850]
-                                : Colors.grey[100],
-
+                        fillColor: Theme.of(context).cardColor,
                         border:
                             OutlineInputBorder(
-
                           borderRadius:
                               BorderRadius.circular(
                             18,
                           ),
-
                           borderSide:
                               BorderSide.none,
                         ),
@@ -231,22 +204,13 @@ class _LoginScreenState
                       ),
 
                     SizedBox(
-
                       width: double.infinity,
-
                       child: ElevatedButton(
-
                         style:
                             ElevatedButton.styleFrom(
-
-                          backgroundColor:
-                              const Color(
-                            0xFF12324A,
-                          ),
-
+                          backgroundColor: Theme.of(context).colorScheme.primary,
                           foregroundColor:
                               Colors.white,
-
                           padding:
                               const EdgeInsets.symmetric(
                             vertical: 16,
@@ -313,8 +277,11 @@ class _LoginScreenState
                           '/register',
                         );
                       },
-                      child: const Text(
+                      child: Text(
                         "¿No tienes cuenta? Regístrate",
+                        style: TextStyle(
+                          color: theme.colorScheme.secondary,
+                        ),
                       ),
                     ),
 
@@ -359,8 +326,11 @@ class _LoginScreenState
                         );
                       },
 
-                      child: const Text(
+                      child: Text(
                         "¿Olvidaste tu contraseña?",
+                        style: TextStyle(
+                          color: theme.colorScheme.secondary,
+                        ),
                       ),
                     ),
 
@@ -368,6 +338,9 @@ class _LoginScreenState
 
                     OutlinedButton.icon(
                       style: OutlinedButton.styleFrom(
+                        side: BorderSide(
+                          color: Theme.of(context).dividerColor,
+                        ),
                         minimumSize:
                             const Size(double.infinity, 55),
                         shape: RoundedRectangleBorder(
@@ -383,9 +356,15 @@ class _LoginScreenState
                         );
                       },
 
-                      icon: const Icon(Icons.person_outline),
-                      label: const Text(
+                      icon: Icon(
+                        Icons.person_outline,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
+                      label: Text(
                         "Continuar como invitado",
+                        style: TextStyle(
+                          color: theme.textTheme.bodyMedium?.color,
+                        ),
                       ),
                     ),
                   ],

@@ -36,15 +36,15 @@ class AppTheme {
       secondary: Color(0xFF1E5878),
       onSecondary: Colors.white,
     ),
-    cardColor: const Color(0xFF1E1E1E),
+    cardColor: const Color(0xFF1E293B),
     dividerColor: Colors.white24,
     shadowColor: Colors.black,
     primarySwatch: Colors.blueGrey,
-    scaffoldBackgroundColor: const Color(0xFF000000),
+    scaffoldBackgroundColor: const Color(0xFF0F172A),
     appBarTheme: const AppBarTheme(
       elevation: 0,
       centerTitle: true,
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xFF0F172A),
       foregroundColor: Colors.white,
     ),
 

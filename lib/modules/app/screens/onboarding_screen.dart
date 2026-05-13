@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'login_screen.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
-  Future<void> finishOnboarding(
-    BuildContext context,
-  ) async {
+  @override
+  State<OnboardingScreen> createState() =>
+      _OnboardingScreenState();
+}
+
+class _OnboardingScreenState
+    extends State<OnboardingScreen> {
+
+  final PageController controller =
+      PageController();
+
+  bool isLastPage = false;
+
+  Future<void> finishOnboarding() async {
 
     final prefs =
         await SharedPreferences.getInstance();
@@ -18,13 +30,83 @@ class OnboardingScreen extends StatelessWidget {
       true,
     );
 
+    if (!mounted) return;
+
     Navigator.pushReplacement(
-
       context,
-
       MaterialPageRoute(
         builder: (_) =>
             const LoginScreen(),
+      ),
+    );
+  }
+
+  Widget buildPage({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
+
+    return Padding(
+
+      padding: const EdgeInsets.all(30),
+
+      child: Column(
+
+        mainAxisAlignment:
+            MainAxisAlignment.center,
+
+        children: [
+
+          Container(
+
+            padding: const EdgeInsets.all(30),
+
+            decoration: BoxDecoration(
+
+              shape: BoxShape.circle,
+
+              color: Colors.white.withOpacity(0.08),
+
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.cyan.withOpacity(0.25),
+                  blurRadius: 30,
+                ),
+              ],
+            ),
+
+            child: Icon(
+              icon,
+              size: 100,
+              color: Colors.white,
+            ),
+          ),
+
+          const SizedBox(height: 50),
+
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 34,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          Text(
+            subtitle,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.8),
+              fontSize: 17,
+              height: 1.5,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -34,83 +116,146 @@ class OnboardingScreen extends StatelessWidget {
 
     return Scaffold(
 
-      body: Padding(
+      body: Container(
 
-        padding: const EdgeInsets.all(24),
+        decoration: const BoxDecoration(
 
-        child: Column(
+          gradient: LinearGradient(
 
-          mainAxisAlignment:
-              MainAxisAlignment.center,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
 
-          children: [
+            colors: [
+              Color(0xFF081C2C),
+              Color(0xFF12324A),
+              Color(0xFF1F5A7A),
+            ],
+          ),
+        ),
 
-            const Icon(
-              Icons.radio,
-              size: 120,
-              color: Color(0xFF12324A),
-            ),
+        child: SafeArea(
 
-            const SizedBox(height: 40),
+          child: Column(
 
-            const Text(
+            children: [
 
-              "Bienvenido a Freepi",
+              Expanded(
 
-              textAlign: TextAlign.center,
+                child: PageView(
 
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+                  controller: controller,
 
-            const SizedBox(height: 20),
+                  onPageChanged: (index) {
+                    setState(() {
+                      isLastPage = index == 3;
+                    });
+                  },
 
-            const Text(
+                  children: [
 
-              "Escucha radio, descubre noticias y guarda tus favoritos.",
+                    buildPage(
+                      icon: Icons.radio,
+                      title: "Radio en vivo",
+                      subtitle:
+                          "Escucha tus estaciones favoritas desde cualquier lugar.",
+                    ),
 
-              textAlign: TextAlign.center,
+                    buildPage(
+                      icon: Icons.newspaper,
+                      title: "Noticias actualizadas",
+                      subtitle:
+                          "Descubre información y novedades en tiempo real.",
+                    ),
 
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
+                    buildPage(
+                      icon: Icons.favorite,
+                      title: "Guarda favoritos",
+                      subtitle:
+                          "Accede rápidamente a tus noticias y programas favoritos.",
+                    ),
 
-            const SizedBox(height: 40),
-
-            SizedBox(
-
-              width: double.infinity,
-
-              child: ElevatedButton(
-
-                style:
-                    ElevatedButton.styleFrom(
-
-                  backgroundColor:
-                      const Color(0xFF12324A),
-
-                  foregroundColor:
-                      Colors.white,
-
-                  padding:
-                      const EdgeInsets.symmetric(
-                    vertical: 16,
-                  ),
-                ),
-
-                onPressed: () {
-                  finishOnboarding(context);
-                },
-
-                child: const Text(
-                  "Comenzar",
+                    buildPage(
+                      icon: Icons.dark_mode,
+                      title: "Experiencia personalizada",
+                      subtitle:
+                          "Disfruta una app moderna con modo oscuro y diseño premium.",
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+
+              Padding(
+
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 25,
+                  vertical: 30,
+                ),
+
+                child: Row(
+
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween,
+
+                  children: [
+
+                    TextButton(
+                      onPressed: finishOnboarding,
+                      child: const Text(
+                        "Saltar",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+
+                    SmoothPageIndicator(
+                      controller: controller,
+                      count: 4,
+                      effect: const ExpandingDotsEffect(
+                        activeDotColor: Colors.white,
+                        dotColor: Colors.white38,
+                        dotHeight: 8,
+                        dotWidth: 8,
+                      ),
+                    ),
+
+                    ElevatedButton(
+
+                      style:
+                          ElevatedButton.styleFrom(
+
+                        backgroundColor:
+                            Colors.white,
+
+                        foregroundColor:
+                            const Color(0xFF12324A),
+                      ),
+
+                      onPressed: () async {
+
+                        if (isLastPage) {
+                          finishOnboarding();
+                        } else {
+                          controller.nextPage(
+                            duration: const Duration(
+                              milliseconds: 500,
+                            ),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      },
+
+                      child: Text(
+                        isLastPage
+                            ? "Comenzar"
+                            : "Siguiente",
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

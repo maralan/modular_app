@@ -22,14 +22,22 @@ class AppDrawer extends StatelessWidget {
         Provider.of<ThemeProvider>(context);
 
     return Drawer(
+      backgroundColor: 
+        Theme.of(context)
+          .scaffoldBackgroundColor,
       child: Column(
         children: [
           UserAccountsDrawerHeader(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xFF12324A),
-                  Color(0xFF1E5878),
+                  Theme.of(context)
+                      .colorScheme
+                      .primary,
+
+                  Theme.of(context)
+                      .colorScheme
+                      .secondary,
                 ],
               ),
             ),
@@ -44,43 +52,57 @@ class AppDrawer extends StatelessWidget {
             ),
 
             currentAccountPicture:
-                const CircleAvatar(
-              backgroundColor: Colors.white,
+                CircleAvatar(
+              backgroundColor: Theme.of(context).cardColor,
               child: Icon(
                 Icons.person,
                 size: 40,
-                color: Color(0xFF12324A),
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ),
 
           ListTile(
-            leading: const Icon(Icons.dashboard),
-            title: const Text("Dashboard"),
+            leading: Icon(
+              Icons.dashboard,
+              color: Theme.of(context)
+                  .iconTheme
+                  .color,
+            ),
+            title: Text("Dashboard"),
             onTap: () {
               onItemSelected(0);
             },
           ),
 
           ListTile(
-            leading: const Icon(Icons.radio),
-            title: const Text("Radio"),
+            leading: Icon(
+              Icons.radio,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            title: Text("Radio"),
             onTap: () {
               onItemSelected(1);
             },
           ),
 
           ListTile(
-            leading: const Icon(Icons.article),
-            title: const Text("Noticias"),
+            leading: Icon(
+              Icons.article,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            title: Text("Noticias"),
             onTap: () {
               onItemSelected(2);
             },
           ),
 
           ListTile(
-            leading: const Icon(Icons.person),
-            title: const Text("Perfil"),
+            leading:  Icon(
+              Icons.person,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            title: Text("Perfil"),
             onTap: () {
               onItemSelected(3);
             },
@@ -90,7 +112,7 @@ class AppDrawer extends StatelessWidget {
             value: theme.isDarkMode,
             secondary:
                 const Icon(Icons.dark_mode),
-            title: const Text(
+            title: Text(
               "Modo oscuro",
             ),
             onChanged: (value) {
@@ -100,29 +122,42 @@ class AppDrawer extends StatelessWidget {
 
           ListTile(
             leading:
-                const Icon(Icons.share),
+                Icon(
+                  Icons.share,
+                  color: Theme.of(context).iconTheme.color,
+                ),
             title:
-                const Text("Compartir app"),
+                Text("Compartir app"),
             onTap: () {},
           ),
 
           const Spacer(),
 
-          const Divider(),
+          Divider(
+            color: Theme.of(context).dividerColor,
+          ),
 
           ListTile(
             leading:
-                const Icon(Icons.info),
+                Icon(
+                  Icons.info,
+                  color: Theme.of(context)
+                    .iconTheme
+                    .color,
+                ),
             title:
-                const Text("Versión 1.0.0"),
+                Text("Versión 1.0.0"),
           ),
 
           if (auth.isLoggedIn)
             ListTile(
               leading:
-                  const Icon(Icons.logout),
+                  Icon(
+                    Icons.logout,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
               title:
-                  const Text("Cerrar sesión"),
+                  Text("Cerrar sesión"),
               onTap: () {
                 auth.logout();
                 context

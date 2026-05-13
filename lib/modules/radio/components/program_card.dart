@@ -8,16 +8,15 @@ class ProgramCard  extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final theme = Theme.of(context);
+
     return Container(
-      // Provides horizontal spacing between adjacent cards in a scrollable view.
       margin: const EdgeInsets.symmetric(horizontal: 8),
-      
-      // Ensures the children (images and overlays) respect the rounded corner boundary.
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: Stack(
           children: [
-            /// Background image representing the specific radio program.
             program.imageUrl.isNotEmpty
                 ? Image.network(
                     program.imageUrl,
@@ -30,45 +29,50 @@ class ProgramCard  extends StatelessWidget {
                       stackTrace,
                     ) {
                       return Container(
-                        color: Colors.grey.shade300,
-                        child: const Center(
+                        color: theme.dividerColor,
+                        child: Center(
                           child: Icon(
                             Icons.image_not_supported,
                             size: 40,
+                            color: theme.iconTheme.color,
                           ),
                         ),
                       );
                     },
                   )
                 : Container(
-                    color: Colors.grey.shade300,
-                    child: const Center(
+                    color: theme.dividerColor,
+                    child: Center(
                       child: Icon(
                         Icons.image,
                         size: 40,
+                        color: theme.iconTheme.color,
                       ),
                     ),
                   ),
 
-            /// Semi-transparent dark overlay to improve text readability against varying image backgrounds.
             Container(
-              color: Colors.black.withOpacity(0.4),
+              color: theme.shadowColor.withOpacity(0.4),
             ),
-
-            /// Anchored text label displaying the program title at the bottom of the card.
             Positioned(
               bottom: 10,
               left: 10,
               right: 10,
               child: Text(
                 program.title,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      color: theme.shadowColor,
+                      blurRadius: 6
+                    ),
+                  ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

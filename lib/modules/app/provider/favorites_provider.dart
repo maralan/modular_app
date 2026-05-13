@@ -10,16 +10,8 @@ class FavoritesProvider extends ChangeNotifier {
   List<Map<String, dynamic>> favoriteItems = [];
 
   Future<void> loadFavorites(String type) async {
-    if (FirebaseAuth.instance.currentUser == null) {
-      favorites.clear();
-      favoriteItems.clear();
-      notifyListeners();
-      return;
-    }
-    final data = await _service.getFavoritesByType(type);
-    favorites = data.toSet();
-    favoriteItems = await _service.getFavoritesFull(type);
-    notifyListeners();
+    //Carga global segura
+    await loadAllFavorites();
   }
 
   Future<void> toggleFavorite({
@@ -37,8 +29,6 @@ class FavoritesProvider extends ChangeNotifier {
 
     await _service.removeFavorite(itemId);
 
-    favorites.remove(itemId);
-
   } else {
 
     await _service.addFavorite(
@@ -50,11 +40,8 @@ class FavoritesProvider extends ChangeNotifier {
 
     favorites.add(itemId);
   }
-
-  // RECARGA TODO DESDE FIREBASE
-  favoriteItems = await _service.getAllFavorites();
-
-  notifyListeners();
+  //Recarga global real
+  await loadAllFavorites();
   }
 
   bool isFavorite(String itemId) {

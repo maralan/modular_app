@@ -40,6 +40,8 @@ dependencies:
 
   flutter_native_splash: ^2.4.7
 
+  smooth_page_indicator: ^1.2.0+3
+
 flutter_native_splash:
   color: "#12324A"
   #image: assets/splash.png

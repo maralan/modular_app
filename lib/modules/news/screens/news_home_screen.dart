@@ -9,6 +9,8 @@ import 'favorites_screen.dart';
 import '../components/search_delegate.dart';
 import '../components/news_card.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class NewsHomeScreen extends StatefulWidget {
   const NewsHomeScreen({super.key});
 
@@ -340,9 +342,16 @@ class _HomeScreenState
                   return postProvider.hasMore
                       ? const Padding(
                           padding: EdgeInsets.all(16),
-                          child: Center(child: CircularProgressIndicator()),
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         )
                       : const SizedBox();
+                }
+
+                //Proteccion extra
+                if (index >= postProvider.posts.length) {
+                  return const SizedBox();
                 }
 
                 final post = postProvider.posts[index];
@@ -359,9 +368,23 @@ class _HomeScreenState
                   ),
 
                   confirmDismiss: (_) async {
+                    
+                    if (FirebaseAuth.instance.currentUser == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Theme.of(context).cardColor,
+                          content: Text(
+                            "Inicia sesión para guardar favoritos",
+                            style: TextStyle(
+                              color: Theme.of(context).textTheme.bodyMedium?.color,
+                            ),
+                          ),
+                        ),
+                      );
+                      return false;
+                    }
 
                     final wasFav = favProvider.isFavorite("news_${post.id}");
-
                     await favProvider.toggleFavorite(
                       itemId: "news_${post.id}",
                       type: "news",
@@ -396,6 +419,20 @@ class _HomeScreenState
                     post: post,
                     isFav: isFav,
                     onFavorite: () async {
+                      if (FirebaseAuth.instance.currentUser == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Theme.of(context).cardColor,
+                            content: Text(
+                              "Inicia sesión para guardar favoritos",
+                              style: TextStyle(
+                                color: Theme.of(context).textTheme.bodyMedium?.color,
+                              ),
+                            ),
+                          ),
+                        );
+                        return;
+                      }
                       await favProvider.toggleFavorite(
                         itemId: "news_${post.id}",
                         type: "news",

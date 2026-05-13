@@ -6,10 +6,9 @@ import 'package:url_launcher/url_launcher.dart';
 class SocialSection extends StatelessWidget {
   const SocialSection({super.key});
 
-  /// Handles the logic for opening external URLs in the device's default browser or app.
   Future<void> _openUrl(String url) async {
     final uri = Uri.parse(url);
-    // LaunchMode.externalApplication ensures the link opens outside the app context.
+    
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       debugPrint('Error abriendo $url');
     }
@@ -17,7 +16,7 @@ class SocialSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
 
     return Column(
       children: [
@@ -26,7 +25,7 @@ class SocialSection extends StatelessWidget {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: isDark ? Colors.white : Colors.black,
+            color: theme.textTheme.bodyLarge?.color,
           ),
         ),
 
@@ -36,7 +35,7 @@ class SocialSection extends StatelessWidget {
         Center(
           child: Wrap(
             alignment: WrapAlignment.center, // Centers the icons horizontally within the Wrap.
-            spacing: 18, // Horizontal space between individual icons.
+            spacing: 18,
             runSpacing: 18, // Vertical space between lines if the icons wrap.
             children: [
               _icon(context, FontAwesomeIcons.facebook, Colors.blue, "https://facebook.com"),
@@ -46,7 +45,7 @@ class SocialSection extends StatelessWidget {
               _icon(
                 context,
                 FontAwesomeIcons.tiktok,
-                isDark ? Colors.white : Colors.black,
+                theme.iconTheme.color ?? Colors.white,
                 "https://tiktok.com",
               ),
 
@@ -57,7 +56,7 @@ class SocialSection extends StatelessWidget {
               _icon(
                 context,
                 FontAwesomeIcons.xTwitter,
-                isDark ? Colors.white : Colors.black,
+                theme.iconTheme.color ?? Colors.white,
                 "https://twitter.com",
               ),
 
@@ -71,28 +70,26 @@ class SocialSection extends StatelessWidget {
 
   /// Helper method to create a consistent, animated button for each social platform.
   Widget _icon(BuildContext context, IconData icon, Color color, String url) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
 
     return GestureDetector(
       onTap: () => _openUrl(url),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
         padding: const EdgeInsets.all(14),
 
         decoration: BoxDecoration(
           shape: BoxShape.circle,
 
           /// Background color adapts to the theme to maintain high contrast.
-          color: isDark
-              ? Colors.white.withOpacity(0.1)
-              : Colors.grey[200],
+          color: theme.cardColor,
 
           boxShadow: [
             BoxShadow(
-              color: isDark
-                  ? Colors.black.withOpacity(0.6)
-                  : Colors.grey.withOpacity(0.4),
+              color: theme.shadowColor.withOpacity(0.25),
               blurRadius: 8,
+              offset: const Offset(0, 3)
             )
           ],
         ),

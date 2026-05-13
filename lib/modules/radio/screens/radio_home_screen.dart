@@ -109,18 +109,19 @@ class RadioHomeScreen extends StatefulWidget {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white
-                                : Colors.black,
+                            color: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.color,
                           ),
                         ),
                         const SizedBox(width: 6),
-                        const Text(
+                        Text(
                           "Estaciones",
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: Colors.yellow,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
                       ],
@@ -149,7 +150,7 @@ class RadioHomeScreen extends StatefulWidget {
                           Container(
                             height: 200,
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.4),
+                              color: Theme.of(context).shadowColor.withOpacity(0.4),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: const Center(
@@ -192,13 +193,19 @@ class RadioHomeScreen extends StatefulWidget {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
-                                    color: isActive ? Colors.yellow : Colors.transparent,
+                                    color: isActive ? Theme.of(context).colorScheme.secondary : Colors.transparent,
                                     width: 3,
                                   ),
                                 ),
                                 child: CircleAvatar(
                                   radius: isActive ? 40 : 32,
-                                  backgroundImage: NetworkImage(station.imageUrl),
+                                  backgroundImage: 
+                                    station.imageUrl.isNotEmpty
+                                      ? NetworkImage(station.imageUrl)
+                                      : null,
+                                  child: station.imageUrl.isEmpty
+                                      ? const Icon(Icons.radio)
+                                      : null,
                                 ),
                               ),
                             );
@@ -218,16 +225,19 @@ class RadioHomeScreen extends StatefulWidget {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black
+                            color: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.color,
                           ),
                         ),
                         const SizedBox(width: 6),
-                        const Text(
+                        Text(
                           "Programas",
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: Colors.yellow,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
                       ],
@@ -235,11 +245,15 @@ class RadioHomeScreen extends StatefulWidget {
                   ),
                   const ProgramCarousel(),
                   const SizedBox(height: 30),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                       "Promociones y Eventos",
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 22, 
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
                     ),
                   ),
                   const PromoCarousel(),

@@ -7,6 +7,9 @@ import '../../radio/components/mini_player.dart';
 import '../components/app_drawer.dart';
 import 'dashboard_screen.dart';
 
+import 'package:provider/provider.dart';
+import '../provider/favorites_provider.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -16,6 +19,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      context
+          .read<FavoritesProvider>()
+          .loadAllFavorites();
+    });
+  }
+  
   int currentIndex = 0;
 
   final List<Widget> screens = [
@@ -27,10 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        backgroundColor: theme.appBarTheme.backgroundColor,
         elevation: 0,
         iconTheme: const IconThemeData(
           color:  Colors.white,
@@ -52,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const Positioned(
             left: 12, 
             right: 12,
-            bottom: 58,
+            bottom: 1,
             child: MiniPlayer(),
           )
         ],
@@ -71,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(28),
             boxShadow: [
               BoxShadow(
-                color: Theme.of(context).shadowColor.withOpacity(0.12),
+                color: theme.shadowColor.withOpacity(0.12),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -96,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
 
                   return TextStyle(
-                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                    color: theme.textTheme.bodyMedium?.color,
                   );
                 },
               ),
@@ -107,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(
                     Icons.dashboard_outlined,
                     color:
-                        Theme.of(context).brightness ==
+                        theme.brightness ==
                                 Brightness.dark
                             ? Colors.white70
                             : Colors.black87,
@@ -115,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   selectedIcon: Icon(
                     Icons.dashboard,
-                    color: Theme.of(context).colorScheme.onSecondary,
+                    color: theme.colorScheme.onSecondary,
                   ),
 
                   label: "App",
@@ -126,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(
                     Icons.radio_outlined,
                     color:
-                        Theme.of(context).brightness ==
+                        theme.brightness ==
                                 Brightness.dark
                             ? Colors.white70
                             : Colors.black87,
@@ -134,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   selectedIcon: Icon(
                     Icons.radio,
-                    color: Theme.of(context).colorScheme.onSecondary,
+                    color: theme.colorScheme.onSecondary,
                   ),
 
                   label: "Radio",
@@ -144,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   icon: Icon(
                     Icons.newspaper_outlined,
-                    color: Theme.of(context).brightness ==
+                    color: theme.brightness ==
                             Brightness.dark
                         ? Colors.white70
                         : Colors.black87,
@@ -152,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   selectedIcon: Icon(
                     Icons.newspaper,
-                    color: Theme.of(context).colorScheme.onSecondary,
+                    color: theme.colorScheme.onSecondary,
                   ),
 
                   label: "News",
@@ -165,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icons.person_outline,
 
                     color:
-                        Theme.of(context).brightness ==
+                        theme.brightness ==
                                 Brightness.dark
                             ? Colors.white70
                             : Colors.black87,
@@ -173,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   selectedIcon: Icon(
                     Icons.person,
-                    color: Theme.of(context).colorScheme.onSecondary,
+                    color: theme.colorScheme.onSecondary,
                   ),
 
                   label: "Perfil",
@@ -186,8 +200,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
               height: 72,
-              backgroundColor: Theme.of(context).cardColor,
-              indicatorColor: const Color(0xFF1E3A5F),
+              backgroundColor: theme.cardColor,
+              indicatorColor: theme.colorScheme.secondary,
             ),
           ),
         ),
